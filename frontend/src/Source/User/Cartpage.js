@@ -54,21 +54,20 @@ const CheckoutPage = () => {
   const auth = useAuthUser();
 
   const handleQuantityChange = (itemId, newQuantity) => {
-  if (newQuantity <= 0) {
-    // If the new quantity is less than or equal to 0, remove the item from the cart
-    setCartDataHandler((prevItems) =>
-      prevItems.filter((item) => item.id !== itemId)
-    );
-  } else {
-    // Update the quantity of the item in the cart
-    setCartDataHandler((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  }
-};
-
+    if (newQuantity <= 0) {
+      // If the new quantity is less than or equal to 0, remove the item from the cart
+      setCartDataHandler((prevItems) =>
+        prevItems.filter((item) => item.id !== itemId)
+      );
+    } else {
+      // Update the quantity of the item in the cart
+      setCartDataHandler((prevItems) =>
+        prevItems.map((item) =>
+          item.id === itemId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    }
+  };
 
   const handleQuantityIncrement = (itemId) => {
     setCartDataHandler((prevItems) =>
@@ -79,15 +78,14 @@ const CheckoutPage = () => {
   };
 
   const handleQuantityDecrement = (itemId) => {
-  setCartDataHandler((prevItems) =>
-    prevItems.map((item) =>
-      item.id === itemId
-        ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
-        : item
-    )
-  );
-};
-
+    setCartDataHandler((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId
+          ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
+          : item
+      )
+    );
+  };
 
   const calculateTotalPrice = () => {
     let totalPrice2 = 0;
@@ -153,7 +151,7 @@ const CheckoutPage = () => {
   const pay = async (event) => {
     try {
       const addSaleResponse = await axios.post(
-        "https://mexicanhopper.com:8080/api/v1/addsale",
+        "http://localhost:8080/api/v1/addsale",
         apiData
       );
 

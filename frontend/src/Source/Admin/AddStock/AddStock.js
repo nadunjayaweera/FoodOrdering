@@ -12,12 +12,12 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems } from "../../listitems";
-import { AppBar, Drawer, mdTheme, Copyright } from "../../Structure";
+import { mainListItems } from "../listitems";
+import { AppBar, Drawer, mdTheme, Copyright } from "../Structure";
 import Footer from "../../footer";
-import FormAddProduct from "./Formadditem";
+import FormAddStock from "./Formaddstock";
 
-export default function AddProducts() {
+export default function AddStock() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -92,7 +92,7 @@ export default function AddProducts() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <FormAddProduct />
+                  <FormAddStock />
                 </Paper>
               </Grid>
             </Grid>

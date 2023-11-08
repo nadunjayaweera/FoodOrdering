@@ -2,7 +2,7 @@ import ItemDAO from "../dao/additemDAO.js";
 
 const apiAddItem = async (req, res) => {
   try {
-    const { name, price, description,  promotionStatus, image} = req.body;
+    const { name, price, description, promotionStatus, image } = req.body;
 
     // Create new item
     const newItem = {
@@ -24,7 +24,6 @@ const apiAddItem = async (req, res) => {
     return res.status(500).send({ error: e.message });
   }
 };
-
 
 const apiUpdateItem = async (req, res) => {
   try {

@@ -12,12 +12,12 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems } from "../../listitems";
-import { AppBar, Drawer, mdTheme, Copyright } from "../../Structure";
-import Footer from "../../footer";
-import FormAddProduct from "./Formadditem";
+import { mainListItems } from "../listitems";
+import { AppBar, Drawer, mdTheme, Copyright } from "../Structure";
+// import Users from "./userlist";
+// import Notificationicon from '../Notification/Notifications';
 
-export default function AddProducts() {
+export default function Pos() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -52,8 +52,9 @@ export default function AddProducts() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Update Product
+              POS
             </Typography>
+            {/* <Notificationicon/> */}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -92,12 +93,12 @@ export default function AddProducts() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <FormAddProduct />
+                  {/* <Users /> */}
                 </Paper>
               </Grid>
             </Grid>
             <Box sx={{ pt: 4 }}>
-              <Footer />
+              <Copyright />
             </Box>
           </Container>
         </Box>

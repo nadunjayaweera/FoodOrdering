@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { Badge, IconButton, Popover, List, ListItem, ListItemText } from '@mui/material';
-import { ShoppingCart } from '@mui/icons-material';
-import {useCartCtx} from "../../context/CartCtx";
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Badge,
+  IconButton,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import { ShoppingCart } from "@mui/icons-material";
+import { useCartCtx } from "../../context/CartCtx";
+import { Link } from "react-router-dom";
 
 const Cart = ({ cartItems }) => {
-  const {cartData, setCartDataHandler} = useCartCtx();
-  console.log({cartData});
+  const { cartData, setCartDataHandler } = useCartCtx();
+  console.log({ cartData });
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleCartClick = (event) => {
@@ -18,27 +25,30 @@ const Cart = ({ cartItems }) => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'cart-popover' : undefined;
+  const id = open ? "cart-popover" : undefined;
 
   return (
     <>
-      <Link to="/cartpage">     <IconButton color="inherit" onClick={handleCartClick}>
-        <Badge badgeContent={cartData} color="error">
-          <ShoppingCart />
-        </Badge>
-      </IconButton>    </Link>
+      <Link to="/cartpage">
+        {" "}
+        <IconButton color="inherit" onClick={handleCartClick}>
+          <Badge badgeContent={cartData} color="error">
+            <ShoppingCart />
+          </Badge>
+        </IconButton>{" "}
+      </Link>
       <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleCartClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         <List>
