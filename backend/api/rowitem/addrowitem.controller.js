@@ -10,6 +10,7 @@ const apiAddRowItem = async (req, res) => {
       productunit,
       productsaleunit,
       productperchaseunit,
+      stock,
     } = req.body;
 
     // Create a new row item object
@@ -20,6 +21,7 @@ const apiAddRowItem = async (req, res) => {
       productunit,
       productsaleunit,
       productperchaseunit,
+      stock,
     };
 
     // Save the new row item to the database

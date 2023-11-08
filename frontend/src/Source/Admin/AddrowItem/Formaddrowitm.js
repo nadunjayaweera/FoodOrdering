@@ -81,6 +81,7 @@ export default function FormAddrowProduct() {
     productunit: "",
     productsaleunit: "",
     productperchaseunit: "",
+    stock: "0",
   });
 
   const [productSaleUnitOptions, setProductSaleUnitOptions] = useState([]);
