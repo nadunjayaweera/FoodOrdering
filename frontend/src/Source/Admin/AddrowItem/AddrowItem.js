@@ -52,7 +52,7 @@ export default function AddrowProducts() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Update Product
+              Add Row Item
             </Typography>
           </Toolbar>
         </AppBar>

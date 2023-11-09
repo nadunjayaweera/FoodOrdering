@@ -49,6 +49,7 @@ const apiUpdateRowItem = async (req, res) => {
       productunit,
       productsaleunit,
       productperchaseunit,
+      stock,
     } = req.body;
     const { id } = req.params;
 
@@ -60,6 +61,7 @@ const apiUpdateRowItem = async (req, res) => {
       productunit,
       productsaleunit,
       productperchaseunit,
+      stock,
     };
 
     // Update the row item in the database

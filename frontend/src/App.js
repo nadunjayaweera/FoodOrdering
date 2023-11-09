@@ -25,7 +25,9 @@ import Stripe from "./Source/User/stripe/StripeContainer";
 import Cartpage from "./Source/User/Cartpage";
 import Form from "./Source/User/payhere/Form";
 import AddrowProducts from "./Source/Admin/AddrowItem/AddrowItem";
+import AddMenu from "./Source/Admin/Addmenu/Addmenu";
 import AddStock from "./Source/Admin/AddStock/AddStock";
+
 function App() {
   return (
     <div className="App">
@@ -59,6 +61,7 @@ function App() {
           <Route path="/pos" element={<Pos />} />
           <Route path="/addrowproduct" element={<AddrowProducts />} />
           <Route path="/addstock" element={<AddStock />} />
+          <Route path="/addmenu" element={<AddMenu />} />
         </Routes>
       </Router>
     </div>

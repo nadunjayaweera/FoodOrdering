@@ -158,6 +158,22 @@ export default function FormAddStock() {
         .then((updatedItem) => {
           console.log("Item updated:", updatedItem);
           setOpenDialog(false); // Close the dialog after saving changes
+
+          // After saving changes, refetch the data to update the form
+          fetch("http://localhost:8080/api/v1/getallrowitems")
+            .then((response) => response.json())
+            .then((data) => {
+              // Rename "_id" to "id" in each row
+              const formattedData = data.map((row) => {
+                return { ...row, id: row._id };
+              });
+
+              // Update the component state with the formatted data
+              setRows(formattedData);
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+            });
         })
         .catch((error) => {
           console.error("Error updating item:", error);
@@ -226,7 +242,6 @@ export default function FormAddStock() {
                   }
                 />
               </div>
-              {/* Add more fields here */}
             </form>
           )}
         </DialogContent>

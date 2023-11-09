@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get("/", DataController.getData);
 router.get("/items", DataController.getItem);
+router.get("/itemname", DataController.getItemName);
 // router.post("/", DataController.addData);
 router.put("/:itemId/update-data", DataController.updateData); // Add this line for updating orderStatus
 router.post("/addsale", DataController.addSale);

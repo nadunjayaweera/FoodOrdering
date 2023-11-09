@@ -37,6 +37,30 @@ export default class DataController {
     }
   }
 
+  static async getItemName(req, res, next) {
+    try {
+      const data = await DataDAO.getItem();
+
+      // Process the images to reduce quality
+      const processedData = await Promise.all(
+        data.map(async (item) => {
+          const processedImage = await sharp(Buffer.from(item.image, "base64"))
+            .jpeg({ quality: 5 }) // Reduce quality to 10%
+            .toBuffer();
+          return {
+            _id: item._id,
+            name: item.name,
+          };
+        })
+      );
+
+      res.json(processedData);
+    } catch (err) {
+      console.error(`Error getting data: ${err}`);
+      res.status(500).json({ error: err });
+    }
+  }
+
   static async getItempart(req, res, next) {
     try {
       const pageNumber = parseInt(req.query.pageNumber) || 1;

@@ -15,9 +15,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems } from "../listitems";
 import { AppBar, Drawer, mdTheme, Copyright } from "../Structure";
 import Footer from "../../footer";
-import FormAddStock from "./Formaddstock";
+import FormAddMenu from "./Formaddmenu";
 
-export default function AddStock() {
+export default function AddMenu() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -52,7 +52,7 @@ export default function AddStock() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Manage Stock
+              Add Menu
             </Typography>
           </Toolbar>
         </AppBar>
@@ -92,7 +92,7 @@ export default function AddStock() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <FormAddStock />
+                  <FormAddMenu />
                 </Paper>
               </Grid>
             </Grid>
