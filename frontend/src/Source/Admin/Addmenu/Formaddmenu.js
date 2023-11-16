@@ -36,7 +36,7 @@ export default function FormAddMenu() {
   const [rowItems, setRowItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(null); // Track the selected item
+  const [selectedItemunit, setSelectedItemunit] = useState(null); // Track the selected item
   useEffect(() => {
     // Fetch data from your API when the component mounts
     fetch("http://localhost:8080/api/v1/itemname")
@@ -80,6 +80,24 @@ export default function FormAddMenu() {
     handleGetRowItem(); // Call the function here to load "Select Item" data
   };
 
+  const handleSelect = (event, value, index) => {
+    if (value) {
+      // Extract both label and unit from the selected item
+      const selectedLabel = value.label;
+      const selectedUnit = value.unit;
+
+      // Update the state with the selected label and unit
+      const updatedItems = [...selectedItems];
+      updatedItems[index].name = selectedLabel;
+      updatedItems[index].unit = selectedUnit;
+      setSelectedItems(updatedItems);
+
+      console.log(
+        `You selected "${selectedLabel}" with unit "${selectedUnit}"`
+      );
+    }
+  };
+
   return (
     <div className={useStyles.container}>
       {loading ? (
@@ -95,9 +113,11 @@ export default function FormAddMenu() {
               <TextField {...params} label="Select Menu" />
             )}
           />
-          <Button onClick={handleAddItem}>ADD</Button>
+          <Button onClick={handleAddItem} style={{ marginBottom: "20px" }}>
+            ADD
+          </Button>
           {selectedItems.map((item, index) => (
-            <div key={index}>
+            <div key={index} style={{ marginBottom: "20px" }}>
               <Autocomplete
                 disablePortal
                 id={`combo-box-item-${index}`}
@@ -107,25 +127,21 @@ export default function FormAddMenu() {
                 renderInput={(params) => (
                   <TextField {...params} label="Select Item" />
                 )}
+                onChange={(event, value) => handleSelect(event, value, index)}
               />
-              <TextField
-                type="number"
-                label="Quantity"
-                value={item.quantity}
-                onChange={(e) => {
-                  const updatedItems = [...selectedItems];
-                  updatedItems[index].quantity = e.target.value;
-                  setSelectedItems(updatedItems);
-                }}
-              />
-              <Autocomplete
-                disablePortal
-                id={`combo-box-unit-${index}`}
-                options={rowItems}
-                getOptionLabel={(option) => option.unit}
-                sx={{ width: 100 }}
-                renderInput={(params) => <TextField {...params} label="Unit" />}
-              />
+              <div style={{ marginTop: "10px" }}>
+                <TextField
+                  type="number"
+                  label="Quantity"
+                  value={item.quantity}
+                  onChange={(e) => {
+                    const updatedItems = [...selectedItems];
+                    updatedItems[index].quantity = e.target.value;
+                    setSelectedItems(updatedItems);
+                  }}
+                />
+                <TextField label="Unit" value={item.unit} sx={{ width: 100 }} />
+              </div>
             </div>
           ))}
         </div>
