@@ -8,6 +8,7 @@ import userRoutes from "./api/users.route.mjs";
 import ItemDAO from "./dao/additemDAO.js";
 import DataDAO from "./dao/dataDAO.js"; // import data DAO
 import RowItemDAO from "./dao/addrowitemDAO.js";
+import MenuDAO from "./dao/addmenuDAO.js";
 const MongoClient = mongodb.MongoClient;
 
 // const uri = `mongodb+srv://nadunmj:EYO4y6xhMq0PzxDX@cluster0.idbvi1f.mongodb.net/?retryWrites=true&w=majority`;
@@ -29,6 +30,7 @@ MongoClient.connect(uri, {
     await UsersDAO.injectDB(client); // inject users DAO
     await ItemDAO.injectDB(client); // inject item
     await RowItemDAO.injectDB(client); // inject row
+    await MenuDAO.injectDB(client); // inject menu
     await DataDAO.injectDB(client); // inject data DAO
 
     app.use("/login", loginRoutes); // mount login routes

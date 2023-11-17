@@ -105,8 +105,8 @@ export default function FormAddrowProduct() {
         setProductPurchaseUnitOptions(Kilo);
         break;
       case "2":
-        setProductSaleUnitOptions([{ value: "2", label: "Piece" }]);
-        setProductPurchaseUnitOptions([{ value: "2", label: "Piece" }]);
+        setProductSaleUnitOptions([{ value: "Piece", label: "Piece" }]);
+        setProductPurchaseUnitOptions([{ value: "Piece", label: "Piece" }]);
         break;
       case "3":
         setProductSaleUnitOptions(Liter);

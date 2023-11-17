@@ -144,6 +144,7 @@ export default function FormAddMenu() {
               </div>
             </div>
           ))}
+          <Button variant="contained">Submit</Button>
         </div>
       )}
     </div>

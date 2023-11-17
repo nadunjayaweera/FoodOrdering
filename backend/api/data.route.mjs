@@ -1,4 +1,3 @@
-// data.route.mjs
 import express from "express";
 import DataController from "./data.controller.mjs";
 

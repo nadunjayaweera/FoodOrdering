@@ -5,6 +5,7 @@ import login from "./api/login.route.mjs"; // import the login route
 import getUsers from "./api/users.route.mjs";
 import additem from "./api/additem.route.mjs"; // import the additem route
 import addrowitem from "./api/rowitem/addrowitem.route.mjs"; // import the addrowitem route
+import addMenu from "./api/addmenu/addmenu.route.mjs"; // import the addmenu route
 import updateitem from "./api/additem.route.mjs"; // import the additem route
 import deleteitem from "./api/additem.route.mjs"; // import the additem route
 import dataRoute from "./api/data.route.mjs"; // add import from data route.
@@ -67,6 +68,7 @@ app.use("/api/v1/login", login); // add the login route
 app.use("/api/v1/users", getUsers); // add the users route
 app.use("/api/v1/", additem); // add the additem route
 app.use("/api/v1/", addrowitem); // add row item route
+app.use("/api/v1/", addMenu); // add menu item route
 app.use("/api/v1/data", dataRoute); // add the data route
 app.use("/api/v1/data", getData); // add the data route
 app.use("/api/v1/data", getItem); // add the data route
