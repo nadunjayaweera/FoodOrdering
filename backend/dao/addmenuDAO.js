@@ -33,6 +33,18 @@ export default class MenuDAO {
     }
   }
 
+  static async updateMenu(id, updatedMenu) {
+    if (!menus) {
+      throw new Error("MenuDAO not initialized");
+    }
+    try {
+      await menus.updateOne({ _id: ObjectId(id) }, { $set: updatedMenu });
+    } catch (err) {
+      console.error(`Error updating menu: ${err}`);
+      throw err;
+    }
+  }
+
   static async getMenuById(id) {
     if (!menus) {
       throw new Error("MenuDAO not initialized");

@@ -31,18 +31,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+// ... (your existing imports)
+
 export default function FormAddMenu() {
   const [menuItems, setMenuItems] = useState([]);
   const [rowItems, setRowItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItemunit, setSelectedItemunit] = useState(null); // Track the selected item
+  const [selectedMenu, setSelectedMenu] = useState(null);
+  const [selecteddishMenu, setSelecteddishMenu] = useState(null);
+
   useEffect(() => {
-    // Fetch data from your API when the component mounts
     fetch("http://localhost:8080/api/v1/itemname")
       .then((response) => response.json())
       .then((data) => {
-        // Map the data from the API to match the structure of top100Films
         const mappedData = data.map((item) => ({
           label: item.name,
           labelid: item._id,
@@ -57,13 +59,12 @@ export default function FormAddMenu() {
   }, []);
 
   const handleGetRowItem = () => {
-    // Fetch row items and map them to match the structure you need
     fetch("http://localhost:8080/api/v1/getallrowitems")
       .then((response) => response.json())
       .then((data) => {
         const mappedRowData = data.map((item) => ({
-          label: item.name, // Load the "name" here
-          unit: item.productsaleunit, // Set the unit to productsaleunit
+          label: item.name,
+          unit: item.productsaleunit,
         }));
         setRowItems(mappedRowData);
         setLoading(false);
@@ -74,23 +75,25 @@ export default function FormAddMenu() {
       });
   };
 
-  // Function to add a new item to the selected items
   const handleAddItem = () => {
     setSelectedItems([...selectedItems, { name: "", quantity: 0, unit: "" }]);
-    handleGetRowItem(); // Call the function here to load "Select Item" data
+    handleGetRowItem();
   };
 
   const handleSelect = (event, value, index) => {
     if (value) {
-      // Extract both label and unit from the selected item
       const selectedLabel = value.label;
       const selectedUnit = value.unit;
 
-      // Update the state with the selected label and unit
       const updatedItems = [...selectedItems];
-      updatedItems[index].name = selectedLabel;
-      updatedItems[index].unit = selectedUnit;
+      updatedItems[index] = {
+        name: selectedLabel,
+        quantity: "", // Set the default quantity to 0
+        unit: selectedUnit,
+      };
+
       setSelectedItems(updatedItems);
+      setSelectedMenu(selectedLabel);
 
       console.log(
         `You selected "${selectedLabel}" with unit "${selectedUnit}"`
@@ -98,10 +101,34 @@ export default function FormAddMenu() {
     }
   };
 
+  const handleSubmit = () => {
+    console.log("Selected Menu:", selectedMenu);
+
+    const menuData = {
+      menu: selecteddishMenu || "", // Use selectedMenu
+      items: selectedItems, // Include all selected items
+    };
+
+    fetch("http://localhost:8080/api/v1/addmenu", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(menuData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Menu added successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error adding menu:", error);
+      });
+  };
+
   return (
     <div className={useStyles.container}>
       {loading ? (
-        "Loading..." // You can add a loading spinner or message here
+        "Loading..."
       ) : (
         <div>
           <Autocomplete
@@ -109,6 +136,7 @@ export default function FormAddMenu() {
             id="combo-box-demo"
             options={menuItems}
             sx={{ width: 600 }}
+            onChange={(event, value) => setSelecteddishMenu(value?.label || "")}
             renderInput={(params) => (
               <TextField {...params} label="Select Menu" />
             )}
@@ -125,7 +153,17 @@ export default function FormAddMenu() {
                 getOptionLabel={(option) => option.label}
                 sx={{ width: 600 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select Item" />
+                  <TextField
+                    {...params}
+                    label="Select Item"
+                    onChange={(e) =>
+                      handleSelect(
+                        e,
+                        { label: e.target.value, unit: "" },
+                        index
+                      )
+                    }
+                  />
                 )}
                 onChange={(event, value) => handleSelect(event, value, index)}
               />
@@ -140,11 +178,22 @@ export default function FormAddMenu() {
                     setSelectedItems(updatedItems);
                   }}
                 />
-                <TextField label="Unit" value={item.unit} sx={{ width: 100 }} />
+                <TextField
+                  label="Unit"
+                  value={item.unit}
+                  sx={{ width: 100 }}
+                  onChange={(e) => {
+                    const updatedItems = [...selectedItems];
+                    updatedItems[index].unit = e.target.value;
+                    setSelectedItems(updatedItems);
+                  }}
+                />
               </div>
             </div>
           ))}
-          <Button variant="contained">Submit</Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Submit
+          </Button>
         </div>
       )}
     </div>

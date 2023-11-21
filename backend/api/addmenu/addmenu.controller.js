@@ -2,10 +2,10 @@ import MenuDAO from "../../dao/addmenuDAO.js";
 
 const apiAddMenu = async (req, res) => {
   try {
-    const { name, items } = req.body;
+    const { menu, items } = req.body;
 
     const newMenu = {
-      name,
+      menu,
       items,
     };
 
@@ -17,6 +17,31 @@ const apiAddMenu = async (req, res) => {
     });
   } catch (e) {
     console.error(`Unable to add menu: ${e}`);
+    return res.status(500).send({ error: e.message });
+  }
+};
+
+// Update an existing row item
+const apiUpdateMenu = async (req, res) => {
+  try {
+    const { menu, items } = req.body;
+
+    const { id } = req.params;
+
+    // Create an updated row item object
+    const updatedMenu = {
+      menu,
+      items,
+    };
+
+    // Update the row item in the database
+    await MenuDAO.updateMenu(id, updatedMenu);
+
+    // Return a success response
+    return res.json({ message: "Menu updated successfully" });
+  } catch (e) {
+    // Handle error
+    console.error(`Unable to update Menu: ${e}`);
     return res.status(500).send({ error: e.message });
   }
 };
@@ -53,4 +78,5 @@ export default {
   apiAddMenu,
   apiGetMenuById,
   apiGetAllMenus,
+  apiUpdateMenu,
 };

@@ -12,6 +12,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import { Link } from "react-router-dom";
 
 export const mainListItems = (
@@ -111,6 +112,15 @@ export const mainListItems = (
           <RestaurantMenuIcon />
         </ListItemIcon>
         <ListItemText primary="Add Menu" />
+      </ListItemButton>
+    </Link>
+
+    <Link to="/menu" style={{ textDecoration: "none", color: "inherit" }}>
+      <ListItemButton>
+        <ListItemIcon>
+          <MenuBookIcon />
+        </ListItemIcon>
+        <ListItemText primary="Menu" />
       </ListItemButton>
     </Link>
   </React.Fragment>
