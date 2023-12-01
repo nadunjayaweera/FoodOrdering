@@ -52,7 +52,7 @@ export default function EditMenu() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Manage Stock
+              Edit Menu
             </Typography>
           </Toolbar>
         </AppBar>

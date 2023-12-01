@@ -4,6 +4,8 @@ import { makeStyles } from "@mui/styles";
 import { Button, TextField, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -31,8 +33,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-// ... (your existing imports)
-
 export default function FormAddMenu() {
   const [menuItems, setMenuItems] = useState([]);
   const [rowItems, setRowItems] = useState([]);
@@ -40,6 +40,9 @@ export default function FormAddMenu() {
   const [loading, setLoading] = useState(true);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [selecteddishMenu, setSelecteddishMenu] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // or "error"
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8080/api/v1/itemname")
@@ -101,6 +104,19 @@ export default function FormAddMenu() {
     }
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
+  const handleSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
   const handleSubmit = () => {
     console.log("Selected Menu:", selectedMenu);
 
@@ -119,9 +135,13 @@ export default function FormAddMenu() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Menu added successfully:", data);
+        handleSnackbar("success", "Menu added successfully");
+        setSelecteddishMenu("");
+        setSelectedItems([]);
       })
       .catch((error) => {
         console.error("Error adding menu:", error);
+        handleSnackbar("error", "Failed to add menu");
       });
   };
 
@@ -196,6 +216,21 @@ export default function FormAddMenu() {
           </Button>
         </div>
       )}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 }

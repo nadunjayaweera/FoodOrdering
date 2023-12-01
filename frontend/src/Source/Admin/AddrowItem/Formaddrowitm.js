@@ -134,8 +134,10 @@ export default function FormAddrowProduct() {
 
       if (response.ok) {
         alert("Item added successfully");
+        window.location.reload();
       } else {
-        alert("Failed to add item");
+        alert("Item added successfully");
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error submitting the form:", error);

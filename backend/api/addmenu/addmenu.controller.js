@@ -74,9 +74,27 @@ const apiGetAllMenus = async (req, res) => {
   }
 };
 
+// End point for delete Menu by there ID.
+const apiDeleteMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Delete the menu in the database
+    await MenuDAO.deleteMenu(id);
+
+    // Return a success response
+    return res.json({ message: "Menu deleted successfully" });
+  } catch (e) {
+    // Handle error
+    console.error(`Unable to delete Menu: ${e}`);
+    return res.status(500).send({ error: e.message });
+  }
+};
+
 export default {
   apiAddMenu,
   apiGetMenuById,
   apiGetAllMenus,
   apiUpdateMenu,
+  apiDeleteMenu,
 };

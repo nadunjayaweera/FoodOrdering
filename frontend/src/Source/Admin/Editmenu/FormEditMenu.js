@@ -9,6 +9,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import MenuItem from "@mui/material/MenuItem";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -16,49 +17,28 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const useStyles = makeStyles(() => ({
-  container: {
-    padding: "10px",
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: "20px",
-  },
-  imageContainer: {
-    border: "1px solid grey", // Replace with your desired border style
-    borderRadius: "4px", // Replace with your desired border radius value or CSS property
-    padding: "5px", // Replace with your desired padding value or CSS property
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "200px", // Replace with your desired height value or CSS property
-    maxWidth: "200px", // Replace with your desired max width value or CSS property
-  },
-  formControl: {
-    marginBottom: "20px",
-    minWidth: 120,
-  },
-}));
-
 export default function FormEditMenu() {
   const [menus, setMenus] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState(null); // Selected menu for editing
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
+
   const columns = [
     { field: "menu", headerName: "Menu", width: 200 },
-    { field: "items", headerName: "Items", width: 300 },
-    // { field: "stockalert", headerName: "Stock Alert", width: 100 },
-    // // { field: "productunit", headerName: "Product Unit", width: 100 },
-    // { field: "productsaleunit", headerName: "Product Sale Unit", width: 100 },
-    // { field: "stock", headerName: "Stock", width: 100 },
-    // {
-    //   field: "productperchaseunit",
-    //   headerName: "Product Purchase Unit",
-    //   width: 100,
-    // },
+    {
+      field: "items",
+      headerName: "Items",
+      width: 300,
+      renderCell: (params) => (
+        <div>
+          {params.row.items.map((item) => (
+            <div key={item.name}>
+              {`${item.name}: ${item.quantity} ${item.unit}`}
+            </div>
+          ))}
+        </div>
+      ),
+    },
     {
       field: "edit",
       headerName: "Edit",
@@ -83,7 +63,7 @@ export default function FormEditMenu() {
           variant="contained"
           color="error"
           startIcon={<DeleteIcon />}
-          // onClick={() => handleDelete(params.row._id)}
+          onClick={() => handleDelete(params.row._id)}
         >
           Delete
         </Button>
@@ -116,33 +96,47 @@ export default function FormEditMenu() {
     setOpenDialog(true); // Open the dialog
   };
 
+  const handleDeleteItem = (index) => {
+    const updatedItems = [...selectedMenu.items];
+    updatedItems.splice(index, 1);
+    setSelectedMenu({
+      ...selectedMenu,
+      items: updatedItems,
+    });
+  };
+
   const handleDialogClose = () => {
     setOpenDialog(false); // Close the dialog
   };
 
-  // const handleDelete = (_id) => {
-  //   if (window.confirm("Are you sure you want to delete this item?")) {
-  //     // Send a DELETE request to the API
-  //     fetch(`http://localhost:8080/api/v1/deleterowitem/${_id}`, {
-  //       method: "DELETE",
-  //     })
-  //       .then((response) => {
-  //         if (response.status === 200) {
-  //           // Item deleted successfully
-  //           console.log("Item deleted:", _id);
+  const handleDelete = () => {
+    if (selectedMenu) {
+      const id = selectedMenu.id; // Assuming 'id' is the correct property name
+      if (window.confirm("Are you sure you want to delete this menu?")) {
+        fetch(`http://localhost:8080/api/v1/deletemenu/${id}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              // Menu deleted successfully
+              console.log("Menu deleted:", id);
 
-  //           // Update the state to remove the deleted item from the list
-  //           setRows((prevRows) => prevRows.filter((row) => row._id !== _id));
-  //         } else {
-  //           // Handle the case when deletion fails
-  //           console.error("Failed to delete item:", _id);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error deleting item:", error);
-  //       });
-  //   }
-  // };
+              // Update the state to remove the deleted menu from the list
+              setMenus((prevMenus) =>
+                prevMenus.filter((menu) => menu.id !== id)
+              );
+              setOpenDialog(false); // Close the dialog after deleting
+            } else {
+              // Handle the case when deletion fails
+              console.error("Failed to delete menu:", id);
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting menu:", error);
+          });
+      }
+    }
+  };
 
   const handleSaveChanges = () => {
     if (selectedMenu) {
@@ -191,60 +185,53 @@ export default function FormEditMenu() {
           {selectedMenu && (
             <form>
               <div style={{ marginTop: 20 }}>
-                <TextField
-                  fullWidth
-                  label="Name"
-                  value={selectedMenu.name}
-                  onChange={(e) =>
-                    setSelectedMenu({ ...selectedMenu, name: e.target.value })
-                  }
-                />
-              </div>
-              {/* <div style={{ marginTop: 20 }}>
-                <TextField
-                  fullWidth
-                  label="Product Cost"
-                  type="number"
-                  value={selectedItem.productcost}
-                  onChange={(e) =>
-                    setSelectedItem({
-                      ...selectedItem,
-                      productcost: e.target.value,
-                    })
-                  }
-                />
+                <Typography>{`Menu: ${selectedMenu.menu}`}</Typography>
               </div>
               <div style={{ marginTop: 20 }}>
-                <TextField
-                  fullWidth
-                  label="Stock Alert"
-                  type="number"
-                  value={selectedItem.stockalert}
-                  onChange={(e) =>
-                    setSelectedItem({
-                      ...selectedItem,
-                      stockalert: e.target.value,
-                    })
-                  }
-                />
+                {/* Map through the items array to display each item */}
+                {selectedMenu.items.map((item, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 10,
+                    }}
+                  >
+                    <Typography
+                      style={{ marginRight: 10 }}
+                    >{`Item: ${item.name}`}</Typography>
+                    <TextField
+                      style={{ marginRight: 10 }}
+                      label={`Item ${index + 1} Quantity`}
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) => {
+                        const updatedItems = [...selectedMenu.items];
+                        updatedItems[index].quantity = e.target.value;
+                        setSelectedMenu({
+                          ...selectedMenu,
+                          items: updatedItems,
+                        });
+                      }}
+                    />
+                    <Typography
+                      style={{ marginRight: 10 }}
+                    >{`Unit: ${item.unit}`}</Typography>
+                    <IconButton
+                      onClick={() => handleDeleteItem(index)}
+                      style={{ color: "red" }}
+                      aria-label={`delete-item-${index}`}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                ))}
               </div>
-              <div style={{ marginTop: 20 }}>
-                <TextField
-                  fullWidth
-                  label="Stock"
-                  type="number"
-                  value={selectedItem.stock}
-                  onChange={(e) =>
-                    setSelectedItem({
-                      ...selectedItem,
-                      stock: e.target.value,
-                    })
-                  }
-                />
-              </div> */}
             </form>
           )}
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
           <Button onClick={handleSaveChanges}>Save</Button>

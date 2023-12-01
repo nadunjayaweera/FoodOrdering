@@ -1,64 +1,62 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 // import { Chart, MonthChart } from '../Reports/chart';
-import * as React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems } from './listitems';
-import {Chart, MonthlySales, Topsell} from './Report/chart';
+import * as React from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { mainListItems } from "./listitems";
+import { Chart, MonthlySales, Topsell } from "./Report/chart";
 // import Orders from '../Sales/Orders';
-import { AppBar, Drawer, mdTheme } from './Structure';
-import Footer from '../footer'
+import { AppBar, Drawer, mdTheme } from "./Structure";
+import Footer from "../footer";
 // import Title from '../Dashboard/title';
 // import Notificationicon from '../Notification/Notifications';
 // import { TodaySales, ThisMonth, LastMonth } from '../Cards/SalesCards';
-import { Card } from '@mui/material';
+import { Card } from "@mui/material";
 
 const appBarStyle = {
-  backgroundColor: 'green', // Set the desired background color here
+  backgroundColor: "green", // Set the desired background color here
 };
 export default function DashboardContent() {
   const [open, setOpen] = React.useState(true);
-   const toggleDrawer = () => {
+  const toggleDrawer = () => {
     setOpen(!open);
-   };
+  };
 
-   useEffect(()=> {
-    if(localStorage.getItem("userRole") !== "admin") {
+  useEffect(() => {
+    if (localStorage.getItem("userRole") !== "admin") {
       window.location.href = "/login";
     }
-   }, [])
-  
-   useEffect(() => {
+  }, []);
+
+  useEffect(() => {
     // Fetch humidity and temperature data from API
-    fetch('http://localhost:8080/api/v1/data')
-      .then(response => response.json())
-      .then(data => {
-        
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+    fetch("http://localhost:8080/api/v1/data")
+      .then((response) => response.json())
+      .then((data) => {})
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open} >
+        <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: "24px", // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -67,8 +65,8 @@ export default function DashboardContent() {
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
+                marginRight: "36px",
+                ...(open && { display: "none" }),
               }}
             >
               <MenuIcon />
@@ -88,9 +86,9 @@ export default function DashboardContent() {
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
               px: [1],
             }}
           >
@@ -108,21 +106,19 @@ export default function DashboardContent() {
           component="main"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
+              theme.palette.mode === "light"
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
+            height: "100vh",
+            overflow: "auto",
           }}
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Card sx={{ maxWidth: 275 }}>
-                  {/* <TodaySales /> */}
-                </Card>
+                <Card sx={{ maxWidth: 275 }}>{/* <TodaySales /> */}</Card>
               </Grid>
 
               {/* {Chart} */}
@@ -130,39 +126,39 @@ export default function DashboardContent() {
                 <Paper
                   sx={{
                     p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height:240,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 240,
                   }}
-                 >
+                >
                   <Chart />
-                  </Paper>
+                </Paper>
               </Grid>
 
               <Grid item xs={12}>
                 <Paper
                   sx={{
                     p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height:240,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 240,
                   }}
-                 >
-                  <MonthlySales/>
-                  </Paper>
+                >
+                  <MonthlySales />
+                </Paper>
               </Grid>
-              
+
               <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <div>
-                    <Topsell/>
+                    <Topsell />
                   </div>
                   {/* <Orders/> */}
                 </Paper>
               </Grid>
             </Grid>
             <Box sx={{ pt: 4 }}>
-              <Footer/>
+              <Footer />
             </Box>
           </Container>
         </Box>

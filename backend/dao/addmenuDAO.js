@@ -68,4 +68,16 @@ export default class MenuDAO {
       return [];
     }
   }
+
+  static async deleteMenu(id) {
+    if (!menus) {
+      throw new Error("MenuDAO not initialized");
+    }
+    try {
+      await menus.deleteOne({ _id: ObjectId(id) });
+    } catch (err) {
+      console.error(`Error deleting menu: ${err}`);
+      throw err;
+    }
+  }
 }
