@@ -5,13 +5,14 @@ let item;
 let sale;
 let menus;
 let rowitems;
+let stocks;
 
 // Object to keep track of cumulative quantities for each product
 let cumulativeQuantities = {};
 
 export default class DataDAO {
   static async injectDB(conn) {
-    if (item && sale && menus && rowitems) {
+    if (item && sale && menus && rowitems && stocks) {
       return;
     }
     try {
@@ -19,6 +20,7 @@ export default class DataDAO {
       sale = await conn.db("Foodordering").collection("sales");
       menus = await conn.db("Foodordering").collection("menus");
       rowitems = await conn.db("Foodordering").collection("rowitem");
+      stocks = await conn.db("Foodordering").collection("stock");
     } catch (err) {
       console.error(
         `Unable to establish collection handles in DataDAO: ${err}`
@@ -33,7 +35,7 @@ export default class DataDAO {
     productStatus,
     email
   ) {
-    if (!sale || !menus || !rowitems) {
+    if (!sale || !menus || !rowitems || !stocks) {
       throw new Error("DataDAO not initialized");
     }
     try {
@@ -133,23 +135,35 @@ export default class DataDAO {
       // Update stock in rowitem collection based on combinedItems
       for (const combinedItem of combinedItems) {
         const { name, quantity, unit } = combinedItem;
-
         // Retrieve the corresponding document from the rowitem collection
         const rowItem = await rowitems.findOne({ name });
 
         if (rowItem) {
-          const { productsaleunit, productperchaseunit, stock } = rowItem;
+          const { productsaleunit, productperchaseunit, stock, productcost } =
+            rowItem;
 
           // Check if product units are the same
           if (productsaleunit === productperchaseunit) {
             // Units are the same, subtract quantity directly
             const updatedStock = stock - parseInt(quantity, 10);
-
+            console.log("Product naem:", name);
+            console.log("Quantity:", quantity);
+            console.log("Unit:", unit);
+            console.log("Product Cost:", productcost * quantity);
             // Update the stock in the rowitem collection
             await rowitems.updateOne(
               { name },
               { $set: { stock: updatedStock } }
             );
+            const stockData = {
+              name,
+              quantity,
+              unit,
+              productCost: productcost * quantity,
+              date: new Date(), // Current date and time
+            };
+            //Insert data into the stock colleciton.
+            await stocks.insertOne(stockData);
           } else {
             // Units are different, convert quantity to productperchaseunit and subtract
             const convertedQuantity = this.convertQuantity(
@@ -160,12 +174,25 @@ export default class DataDAO {
 
             // Subtract the converted quantity from stock
             const updatedStock = stock - convertedQuantity;
+            console.log("Product naem:", name);
+            console.log("Quantity:", quantity);
+            console.log("Unit:", unit);
+            console.log("Product Cost:", productcost * convertedQuantity);
 
             // Update the stock in the rowitem collection
             await rowitems.updateOne(
               { name },
               { $set: { stock: updatedStock } }
             );
+            const stockDatadata = {
+              name,
+              quantity,
+              unit,
+              productCost: productcost * convertedQuantity,
+              date: new Date(), // Current date and time
+            };
+            //Insert data into the stock collection.
+            await stocks.insertOne(stockDatadata);
           }
         } else {
           console.log(`Rowitem not found for product "${name}"`);
@@ -189,7 +216,9 @@ export default class DataDAO {
     if (fromUnit === "g" && toUnit === "Kg") {
       return parseInt(quantity, 10) / 1000;
     }
-
+    if (fromUnit === "ml" && toUnit === "L") {
+      return parseInt(quantity, 10) / 1000;
+    }
     // Add more conversion cases as needed
 
     // Default case (no conversion needed)
