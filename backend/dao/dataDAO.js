@@ -130,9 +130,49 @@ export default class DataDAO {
 
       // Convert the mergedQuantities object to an array
       const combinedItems = Object.values(mergedQuantities);
+      // Update stock in rowitem collection based on combinedItems
+      for (const combinedItem of combinedItems) {
+        const { name, quantity, unit } = combinedItem;
+
+        // Retrieve the corresponding document from the rowitem collection
+        const rowItem = await rowitems.findOne({ name });
+
+        if (rowItem) {
+          const { productsaleunit, productperchaseunit, stock } = rowItem;
+
+          // Check if product units are the same
+          if (productsaleunit === productperchaseunit) {
+            // Units are the same, subtract quantity directly
+            const updatedStock = stock - parseInt(quantity, 10);
+
+            // Update the stock in the rowitem collection
+            await rowitems.updateOne(
+              { name },
+              { $set: { stock: updatedStock } }
+            );
+          } else {
+            // Units are different, convert quantity to productperchaseunit and subtract
+            const convertedQuantity = this.convertQuantity(
+              quantity,
+              unit,
+              productperchaseunit
+            );
+
+            // Subtract the converted quantity from stock
+            const updatedStock = stock - convertedQuantity;
+
+            // Update the stock in the rowitem collection
+            await rowitems.updateOne(
+              { name },
+              { $set: { stock: updatedStock } }
+            );
+          }
+        } else {
+          console.log(`Rowitem not found for product "${name}"`);
+        }
+      }
 
       console.log(`Combined quantities for all items:`, combinedItems);
-
       // Reset variables after processing
       this.resetVariables();
 
@@ -141,6 +181,19 @@ export default class DataDAO {
       console.error(`Error adding sale: ${err}`);
       throw err;
     }
+  }
+
+  static convertQuantity(quantity, fromUnit, toUnit) {
+    // Implement the conversion logic based on your specific units
+    // For simplicity, assuming a linear conversion (e.g., grams to kilograms)
+    if (fromUnit === "g" && toUnit === "Kg") {
+      return parseInt(quantity, 10) / 1000;
+    }
+
+    // Add more conversion cases as needed
+
+    // Default case (no conversion needed)
+    return parseInt(quantity, 10);
   }
 
   static resetVariables() {
