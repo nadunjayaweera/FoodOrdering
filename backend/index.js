@@ -9,6 +9,7 @@ import ItemDAO from "./dao/additemDAO.js";
 import DataDAO from "./dao/dataDAO.js"; // import data DAO
 import RowItemDAO from "./dao/addrowitemDAO.js";
 import MenuDAO from "./dao/addmenuDAO.js";
+import StockDAO from "./dao/stockDAO.js";
 const MongoClient = mongodb.MongoClient;
 
 // const uri = `mongodb+srv://nadunmj:EYO4y6xhMq0PzxDX@cluster0.idbvi1f.mongodb.net/?retryWrites=true&w=majority`;
@@ -32,6 +33,7 @@ MongoClient.connect(uri, {
     await RowItemDAO.injectDB(client); // inject row
     await MenuDAO.injectDB(client); // inject menu
     await DataDAO.injectDB(client); // inject data DAO
+    await StockDAO.injectDB(client); // inject stock
 
     app.use("/login", loginRoutes); // mount login routes
     // app.use("/users", userRoutes); // mount users routes
