@@ -28,6 +28,7 @@ import AddrowProducts from "./Source/Admin/AddrowItem/AddrowItem";
 import AddMenu from "./Source/Admin/Addmenu/Addmenu";
 import AddStock from "./Source/Admin/AddStock/AddStock";
 import EditMenu from "./Source/Admin/Editmenu/EditMenu";
+import StockExpenses from "./Source/Admin/Stockexpenses/Stockexpenses";
 function App() {
   return (
     <div className="App">
@@ -63,6 +64,7 @@ function App() {
           <Route path="/addstock" element={<AddStock />} />
           <Route path="/addmenu" element={<AddMenu />} />
           <Route path="/menu" element={<EditMenu />} />
+          <Route path="/stockexpenses" element={<StockExpenses />} />
         </Routes>
       </Router>
     </div>

@@ -13,6 +13,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import { Link } from "react-router-dom";
 
 export const mainListItems = (
@@ -121,6 +122,18 @@ export const mainListItems = (
           <MenuBookIcon />
         </ListItemIcon>
         <ListItemText primary="Menu" />
+      </ListItemButton>
+    </Link>
+
+    <Link
+      to="/stockexpenses"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <CurrencyExchangeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Stock expenses" />
       </ListItemButton>
     </Link>
   </React.Fragment>
