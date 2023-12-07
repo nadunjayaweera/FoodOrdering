@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, InputLabel } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
@@ -63,9 +63,10 @@ export default function FormStockexpenses() {
   };
 
   const columns = [
-    { field: "name", headerName: "Name", width: 200 },
-    { field: "unit", headerName: "Unit", width: 100 },
-    { field: "quantity", headerName: "Quantity", width: 100 },
+    { field: "name", headerName: "Name", width: 300 },
+    { field: "unit", headerName: "Unit", width: 200 },
+    { field: "quantity", headerName: "Quantity", width: 200 },
+    { field: "productCost", headerName: "Product Cost", width: 200 },
   ];
 
   useEffect(() => {
@@ -99,14 +100,18 @@ export default function FormStockexpenses() {
     <div>
       <Grid container spacing={2} className={classes.container}>
         <Grid item xs={12} sm={6}>
+          <InputLabel htmlFor="start-date">Start Date</InputLabel>
           <DatePicker
+            id="start-date"
             selected={startDate}
             onChange={handleStartDateChange}
             dateFormat="yyyy-MM-dd"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
+          <InputLabel htmlFor="end-date">End Date</InputLabel>
           <DatePicker
+            id="end-date"
             selected={endDate}
             onChange={handleEndDateChange}
             dateFormat="yyyy-MM-dd"

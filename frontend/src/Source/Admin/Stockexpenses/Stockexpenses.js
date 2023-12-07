@@ -17,7 +17,7 @@ import { AppBar, Drawer, mdTheme, Copyright } from "../Structure";
 import Footer from "../../footer";
 import FormStockexpenses from "./FormStockexpenses";
 
-export default function AddStock() {
+export default function StockExpenses() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);

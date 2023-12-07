@@ -37,9 +37,11 @@ export default class StockDAO {
             name: entry.name,
             unit: entry.unit,
             quantity: 0,
+            productCost: 0,
           };
         }
         aggregatedData[entry.name].quantity += parseFloat(entry.quantity);
+        aggregatedData[entry.name].productCost += parseFloat(entry.productCost);
       });
 
       return Object.values(aggregatedData);
