@@ -1,28 +1,30 @@
-import mongodb from "mongodb"
-const ObjectId = mongodb.ObjectID
+import mongodb from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
+const ObjectId = mongodb.ObjectID;
 
-let users
+let users;
 
- class LoginDAO {
-    static async injectDB(conn) {
-        if (users) {
-            return
-        }
-        try {
-            users = await conn.db("Foodordering").collection("users")
-        } catch (e) {
-            console.error(`Unable to establish collection handles in LoginDAO: ${e}`)
-        }
+class LoginDAO {
+  static async injectDB(conn) {
+    if (users) {
+      return;
     }
-
-    static async getUserByEmailAndPassword(email, password) {
-        try {
-            return await users.findOne({ email: email, password: password })
-        } catch (e) {
-            console.error(`Unable to get user: ${e}`)
-            return null
-        }
+    try {
+      users = await conn.db(process.env.DATA_BASE_NAME).collection("users");
+    } catch (e) {
+      console.error(`Unable to establish collection handles in LoginDAO: ${e}`);
     }
+  }
+
+  static async getUserByEmailAndPassword(email, password) {
+    try {
+      return await users.findOne({ email: email, password: password });
+    } catch (e) {
+      console.error(`Unable to get user: ${e}`);
+      return null;
+    }
+  }
 }
 
 export default LoginDAO;

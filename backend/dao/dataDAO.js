@@ -1,4 +1,6 @@
 import mongodb from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
 const ObjectId = mongodb.ObjectID;
 
 let item;
@@ -16,11 +18,13 @@ export default class DataDAO {
       return;
     }
     try {
-      item = await conn.db("Foodordering").collection("item");
-      sale = await conn.db("Foodordering").collection("sales");
-      menus = await conn.db("Foodordering").collection("menus");
-      rowitems = await conn.db("Foodordering").collection("rowitem");
-      stocks = await conn.db("Foodordering").collection("stock");
+      item = await conn.db(process.env.DATA_BASE_NAME).collection("item");
+      sale = await conn.db(process.env.DATA_BASE_NAME).collection("sales");
+      menus = await conn.db(process.env.DATA_BASE_NAME).collection("menus");
+      rowitems = await conn
+        .db(process.env.DATA_BASE_NAME)
+        .collection("rowitem");
+      stocks = await conn.db(process.env.DATA_BASE_NAME).collection("stock");
     } catch (err) {
       console.error(
         `Unable to establish collection handles in DataDAO: ${err}`

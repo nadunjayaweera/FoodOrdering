@@ -101,7 +101,7 @@ const Items = () => {
 
   const fetchItems = (page) => {
     setIsLoading(true);
-    const url = `http://localhost:8080/api/v1/itempart?pageNumber=${page}&itemsPerPage=${itemsPerPage}`;
+    const url = `https://backend.mexicanhoppers.com/api/v1/itempart?pageNumber=${page}&itemsPerPage=${itemsPerPage}`;
 
     fetch(url)
       .then((response) => response.json())

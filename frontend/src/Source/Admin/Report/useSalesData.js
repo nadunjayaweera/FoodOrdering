@@ -5,7 +5,7 @@ const useSalesData = (dataType, numberOfDays) => {
 
   useEffect(() => {
     // Fetch sales data from backend API
-    fetch("http://localhost:8080/api/v1/getsales")
+    fetch("https://backend.mexicanhoppers.com/api/v1/getsales")
       .then((response) => response.json())
       .then((salesData) => {
         // Process the sales data based on the dataType parameter

@@ -83,7 +83,7 @@ const Items = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("http://localhost:8080/api/v1/data/items")
+    fetch("https://backend.mexicanhoppers.com/api/v1/data/items")
       .then((response) => response.json())
       .then((data) => {
         setItems(data);

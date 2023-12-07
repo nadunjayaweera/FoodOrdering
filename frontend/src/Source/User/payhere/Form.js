@@ -90,7 +90,7 @@ const Form = () => {
 
     try {
       const addSaleResponse = await axios.post(
-        "http://localhost:8080/api/v1/addsale",
+        "https://backend.mexicanhoppers.com/api/v1/addsale",
         apiData
       );
 

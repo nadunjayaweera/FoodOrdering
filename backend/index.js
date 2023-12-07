@@ -10,11 +10,13 @@ import DataDAO from "./dao/dataDAO.js"; // import data DAO
 import RowItemDAO from "./dao/addrowitemDAO.js";
 import MenuDAO from "./dao/addmenuDAO.js";
 import StockDAO from "./dao/stockDAO.js";
+import dotenv from "dotenv";
+dotenv.config();
 const MongoClient = mongodb.MongoClient;
 
 // const uri = `mongodb+srv://nadunmj:EYO4y6xhMq0PzxDX@cluster0.idbvi1f.mongodb.net/?retryWrites=true&w=majority`;
-const uri = `mongodb://localhost:27017`;
-const port = 8080;
+const uri = process.env.MONGO_DB_COLLETION;
+const port = process.env.BACK_END_PORT;
 
 MongoClient.connect(uri, {
   maxPoolSize: 50,

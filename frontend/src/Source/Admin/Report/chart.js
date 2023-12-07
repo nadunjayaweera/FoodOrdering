@@ -124,7 +124,7 @@ const Topsell = () => {
     });
 
     // Update the API URL with the formatted date
-    const apiUrl = `http://localhost:8080/api/v1/data/sales?date=${encodeURIComponent(
+    const apiUrl = `https://backend.mexicanhoppers.com/api/v1/data/sales?date=${encodeURIComponent(
       formattedDate
     )}`;
     console.log("URL end:", apiUrl);

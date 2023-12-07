@@ -101,7 +101,7 @@ export default function FormAddProduct() {
       promotionStatus: promotionStatus,
     };
 
-    fetch("http://localhost:8080/api/v1/additem", {
+    fetch("https://backend.mexicanhoppers.com/api/v1/additem", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

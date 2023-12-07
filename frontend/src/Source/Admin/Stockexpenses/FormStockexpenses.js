@@ -78,7 +78,7 @@ export default function FormStockexpenses() {
       ? endDate.toISOString().split("T")[0]
       : null;
 
-    const apiUrl = `http://localhost:8080/api/v1/stock?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
+    const apiUrl = `https://backend.mexicanhoppers.com/api/v1/stock?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
 
     fetch(apiUrl)
       .then((response) => response.json())

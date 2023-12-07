@@ -1,4 +1,6 @@
 import mongodb from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
 const ObjectId = mongodb.ObjectID;
 
 let users;
@@ -9,7 +11,7 @@ class UsersDAO {
       return;
     }
     try {
-      users = await conn.db("Foodordering").collection("users");
+      users = await conn.db(process.env.DATA_BASE_NAME).collection("users");
     } catch (e) {
       console.error(`Unable to establish collection handles in UsersDAO: ${e}`);
     }

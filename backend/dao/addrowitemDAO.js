@@ -1,4 +1,6 @@
 import mongodb from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
 const ObjectId = mongodb.ObjectID;
 
 let rowitems;
@@ -9,7 +11,9 @@ export default class RowItemDAO {
       return;
     }
     try {
-      rowitems = await conn.db("Foodordering").collection("rowitem");
+      rowitems = await conn
+        .db(process.env.DATA_BASE_NAME)
+        .collection("rowitem");
     } catch (e) {
       console.error(
         `Unable to establish collection handles in RowItemDAO: ${e}`

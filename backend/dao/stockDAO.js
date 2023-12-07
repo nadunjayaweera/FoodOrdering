@@ -1,4 +1,6 @@
 import mongodb from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
 const ObjectId = mongodb.ObjectID;
 
 let stocks;
@@ -9,7 +11,7 @@ export default class StockDAO {
       return;
     }
     try {
-      stocks = await conn.db("Foodordering").collection("stock");
+      stocks = await conn.db(process.env.DATA_BASE_NAME).collection("stock");
     } catch (err) {
       console.error(
         `Unable to establish collection handles in StockDAO: ${err}`

@@ -43,7 +43,7 @@ export const CheckoutForm = ({ item }) => {
       try {
         const { id } = paymentMethod;
         const response = await axios.post(
-          "http://localhost:8080/stripe/charge",
+          "https://backend.mexicanhoppers.com/stripe/charge",
           {
             amount: price,
             id: id,
@@ -59,7 +59,7 @@ export const CheckoutForm = ({ item }) => {
           setPaymentStatus("Payment Successful!");
 
           const addSaleResponse = await axios.post(
-            "http://localhost:8080/api/v1/addsale",
+            "https://backend.mexicanhoppers.com/api/v1/addsale",
             {
               customerName: customerName,
               productName: item.name,
