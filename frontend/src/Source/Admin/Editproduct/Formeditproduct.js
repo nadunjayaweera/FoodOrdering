@@ -117,7 +117,7 @@ export default function FormEditProduct() {
     };
 
     fetch(
-      `https://backend.mexicanhoppers.com/api/v1/updateproduct/${currentProductId}`,
+      `https://backfood.tfdatamaster.com/api/v1/updateproduct/${currentProductId}`,
       {
         method: "PUT",
         headers: {

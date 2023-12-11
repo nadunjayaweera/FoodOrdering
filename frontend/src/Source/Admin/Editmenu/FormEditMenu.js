@@ -73,7 +73,7 @@ export default function FormEditMenu() {
 
   useEffect(() => {
     // Fetch data from the API when the component is mounted
-    fetch("https://backend.mexicanhoppers.com/api/v1/getallmenus")
+    fetch("https://backfood.tfdatamaster.com/api/v1/getallmenus")
       .then((response) => response.json())
       .then((data) => {
         // Rename "_id" to "id" in each row
@@ -113,7 +113,7 @@ export default function FormEditMenu() {
     if (selectedMenu) {
       const id = selectedMenu.id; // Assuming 'id' is the correct property name
       if (window.confirm("Are you sure you want to delete this menu?")) {
-        fetch(`https://backend.mexicanhoppers.com/api/v1/deletemenu/${id}`, {
+        fetch(`https://backfood.tfdatamaster.com/api/v1/deletemenu/${id}`, {
           method: "DELETE",
         })
           .then((response) => {
@@ -142,7 +142,7 @@ export default function FormEditMenu() {
     if (selectedMenu) {
       // Make a PUT request to update the menu
       fetch(
-        `https://backend.mexicanhoppers.com/api/v1/updatemenu/${selectedMenu._id}`,
+        `https://backfood.tfdatamaster.com/api/v1/updatemenu/${selectedMenu._id}`,
         {
           method: "PUT",
           headers: {
@@ -157,7 +157,7 @@ export default function FormEditMenu() {
           setOpenDialog(false); // Close the dialog after saving changes
 
           // After saving changes, refetch the data to update the form
-          fetch("https://backend.mexicanhoppers.com/api/v1/getallmenus")
+          fetch("https://backfood.tfdatamaster.com/api/v1/getallmenus")
             .then((response) => response.json())
             .then((data) => {
               // Rename "_id" to "id" in each row

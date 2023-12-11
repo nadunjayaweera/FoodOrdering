@@ -20,6 +20,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { format } from "date-fns-tz";
 
 const monthLabels = [
   "January",
@@ -112,22 +113,20 @@ const MonthlySales = () => {
 const Topsell = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = useState(null);
+  const theme = useTheme();
 
   useEffect(() => {
-    // Get today's date and format it as "Month Day, Year"
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    // Get today's date and format it as "yyyy-MM-dd"
+    const formattedDate = value ? format(value, "MMMM d, yyyy") : null;
 
     // Update the API URL with the formatted date
-    const apiUrl = `https://backend.mexicanhoppers.com/api/v1/data/sales?date=${encodeURIComponent(
+    const apiUrl = `https://backfood.tfdatamaster.com/api/v1/data/sales?date=${encodeURIComponent(
       formattedDate
     )}`;
-    console.log("URL end:", apiUrl);
+
+    console.log("API URL:", apiUrl); // Log the API URL
+
     // Make a GET request to your API
     fetch(apiUrl)
       .then((response) => {
@@ -137,7 +136,6 @@ const Topsell = () => {
         return response.json();
       })
       .then((apiData) => {
-        console.log("API Data:", apiData);
         if (Array.isArray(apiData) && apiData.length > 0) {
           // Process the data into the format expected by PieChart
           const chartData = apiData.map((item) => ({
@@ -145,7 +143,6 @@ const Topsell = () => {
             value: item.totalQuantity,
             label: item._id, // You can use _id as the label property
           }));
-          console.log("Chart:chartData", chartData);
           setData(chartData);
         } else {
           setData([]); // Set an empty array if there's no data
@@ -161,33 +158,32 @@ const Topsell = () => {
   return (
     <div>
       <h2>Top Selling Items</h2>
+      <div>
+        <label htmlFor="top-sell-date">Select Date: </label>
+        <input
+          type="date"
+          id="top-sell-date"
+          value={value ? format(value, "yyyy-MM-dd") : ""}
+          onChange={(e) => setValue(new Date(e.target.value))}
+        />
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                  value={value}
-                  onChange={(newValue) => setValue(newValue)}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-            {data.length > 0 ? (
-              <PieChart
-                series={[
-                  {
-                    data: data, // Use chartData here
-                  },
-                ]}
-                width={550}
-                height={400}
-              />
-            ) : (
-              <p>No data available.</p>
-            )}
-          </div>
+          {data.length > 0 ? (
+            <PieChart
+              series={[
+                {
+                  data: data, // Use chartData here
+                },
+              ]}
+              width={550}
+              height={400}
+            />
+          ) : (
+            <p>No data available.</p>
+          )}
         </>
       )}
     </div>

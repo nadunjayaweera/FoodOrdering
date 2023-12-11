@@ -58,7 +58,7 @@ export default function Orders() {
     const fetchSalesData = async () => {
       try {
         const response = await axios.get(
-          "https://backend.mexicanhoppers.com/api/v1/getsales"
+          "https://backfood.tfdatamaster.com/api/v1/getsales"
         );
         console.log("API Response:", response.data);
 

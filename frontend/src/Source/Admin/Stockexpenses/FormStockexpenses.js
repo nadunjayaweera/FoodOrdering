@@ -1,26 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
-import { Button, Grid, Typography, InputLabel } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import MenuItem from "@mui/material/MenuItem";
+import { Grid, InputLabel } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns-tz";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -72,14 +57,14 @@ export default function FormStockexpenses() {
   useEffect(() => {
     // Fetch data from the API when the component is mounted
     const formattedStartDate = startDate
-      ? startDate.toISOString().split("T")[0]
+      ? format(startDate, "yyyy-MM-dd", { timeZone: "Asia/Colombo" })
       : null;
     const formattedEndDate = endDate
-      ? endDate.toISOString().split("T")[0]
+      ? format(endDate, "yyyy-MM-dd", { timeZone: "Asia/Colombo" })
       : null;
 
-    const apiUrl = `https://backend.mexicanhoppers.com/api/v1/stock?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
-
+    const apiUrl = `https://backfood.tfdatamaster.com/api/v1/stock?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
+    console.log("URL end point", apiUrl);
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
