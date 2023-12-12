@@ -127,6 +127,9 @@ const Topsell = () => {
 
     console.log("API URL:", apiUrl); // Log the API URL
 
+    // Clear the data before making the API request
+    setData([]);
+
     // Make a GET request to your API
     fetch(apiUrl)
       .then((response) => {

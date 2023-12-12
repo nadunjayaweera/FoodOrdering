@@ -161,9 +161,7 @@ export default function FormAddMenu() {
               <TextField {...params} label="Select Menu" />
             )}
           />
-          <Button onClick={handleAddItem} style={{ marginBottom: "20px" }}>
-            ADD
-          </Button>
+
           {selectedItems.map((item, index) => (
             <div key={index} style={{ marginBottom: "20px" }}>
               <Autocomplete
@@ -211,6 +209,9 @@ export default function FormAddMenu() {
               </div>
             </div>
           ))}
+          <Button onClick={handleAddItem} style={{ marginBottom: "20px" }}>
+            ADD
+          </Button>
           <Button variant="contained" onClick={handleSubmit}>
             Submit
           </Button>
